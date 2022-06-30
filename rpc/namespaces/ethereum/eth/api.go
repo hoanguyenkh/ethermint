@@ -9,8 +9,6 @@ import (
 
 	"github.com/tharsis/ethermint/ethereum/eip712"
 
-	"github.com/ethereum/go-ethereum/signer/core/apitypes"
-
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/ethereum/go-ethereum/rpc"
@@ -458,7 +456,7 @@ func (e *PublicAPI) Sign(address common.Address, data hexutil.Bytes) (hexutil.By
 }
 
 // SignTypedData signs EIP-712 conformant typed data
-func (e *PublicAPI) SignTypedData(address common.Address, typedData apitypes.TypedData) (hexutil.Bytes, error) {
+func (e *PublicAPI) SignTypedData(address common.Address, typedData eip712.TypedData) (hexutil.Bytes, error) {
 	e.logger.Debug("eth_signTypedData", "address", address.Hex(), "data", typedData)
 	from := sdk.AccAddress(address.Bytes())
 
