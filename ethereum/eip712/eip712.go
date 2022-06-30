@@ -7,6 +7,7 @@ import (
 	"math/big"
 	"reflect"
 	"strings"
+	"time"
 
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -16,6 +17,10 @@ import (
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
+)
+
+var (
+	timeType = reflect.TypeOf(time.Time{})
 )
 
 // ComputeTypedDataHash computes keccak hash of typed data for signing.
@@ -421,6 +426,7 @@ func typToEth(typ reflect.Type) string {
 		}
 	case reflect.Ptr:
 		if typ.Elem().ConvertibleTo(bigIntType) ||
+			typ.Elem().ConvertibleTo(timeType) ||
 			typ.Elem().ConvertibleTo(cosmIntType) {
 			return str
 		}
@@ -428,6 +434,7 @@ func typToEth(typ reflect.Type) string {
 		if typ.ConvertibleTo(hashType) ||
 			typ.ConvertibleTo(addressType) ||
 			typ.ConvertibleTo(bigIntType) ||
+			typ.ConvertibleTo(timeType) ||
 			typ.ConvertibleTo(cosmIntType) {
 			return str
 		}
