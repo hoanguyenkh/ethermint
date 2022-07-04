@@ -251,15 +251,15 @@ func VerifySignature(
 
 		recoveredFeePayerAcc := sdk.AccAddress(pk.Address().Bytes())
 
-		fmt.Println("recoveredFeePayerAcc {}, feePayer {}", recoveredFeePayerAcc.String(), feePayer.String())
+		fmt.Println("recoveredFeePayerAcc, feePayer", recoveredFeePayerAcc.String(), feePayer.String())
 
-		if !pubKey.Equals(pk) {
-			return sdkerrors.Wrapf(sdkerrors.ErrInvalidPubKey, "feePayer pubkey %s is different from transaction pubkey %s", pubKey, pk)
-		}
+		//if !pubKey.Equals(pk) {
+		//	return sdkerrors.Wrapf(sdkerrors.ErrInvalidPubKey, "feePayer pubkey %s is different from transaction pubkey %s", pubKey, pk)
+		//}
 
-		if !recoveredFeePayerAcc.Equals(feePayer) {
-			return sdkerrors.Wrapf(sdkerrors.ErrorInvalidSigner, "failed to verify delegated fee payer %s signature", recoveredFeePayerAcc)
-		}
+		//if !recoveredFeePayerAcc.Equals(feePayer) {
+		//	return sdkerrors.Wrapf(sdkerrors.ErrorInvalidSigner, "failed to verify delegated fee payer %s signature", recoveredFeePayerAcc)
+		//}
 
 		// VerifySignature of ethsecp256k1 accepts 64 byte signature [R||S]
 		// WARNING! Under NO CIRCUMSTANCES try to use pubKey.VerifySignature there
