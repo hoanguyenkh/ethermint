@@ -249,11 +249,13 @@ func VerifySignature(
 			Key: ethcrypto.CompressPubkey(ecPubKey),
 		}
 
+		recoveredFeePayerAcc := sdk.AccAddress(pk.Address().Bytes())
+
+		fmt.Println("recoveredFeePayerAcc {}, feePayer {}", recoveredFeePayerAcc.String(), feePayer.String())
+
 		if !pubKey.Equals(pk) {
 			return sdkerrors.Wrapf(sdkerrors.ErrInvalidPubKey, "feePayer pubkey %s is different from transaction pubkey %s", pubKey, pk)
 		}
-
-		recoveredFeePayerAcc := sdk.AccAddress(pk.Address().Bytes())
 
 		if !recoveredFeePayerAcc.Equals(feePayer) {
 			return sdkerrors.Wrapf(sdkerrors.ErrorInvalidSigner, "failed to verify delegated fee payer %s signature", recoveredFeePayerAcc)
