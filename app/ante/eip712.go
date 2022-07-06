@@ -216,6 +216,7 @@ func VerifySignature(
 		}
 
 		typedData, err := eip712.WrapTxToTypedData(ethermintCodec, extOpt.TypedDataChainID, msgs[0], txBytes, feeDelegation)
+		fmt.Println(typedData)
 		if err != nil {
 			return sdkerrors.Wrap(err, "failed to pack tx data in EIP712 object")
 		}
@@ -253,13 +254,13 @@ func VerifySignature(
 
 		fmt.Println("recoveredFeePayerAcc, feePayer", recoveredFeePayerAcc.String(), feePayer.String())
 
-		//if !pubKey.Equals(pk) {
-		//	return sdkerrors.Wrapf(sdkerrors.ErrInvalidPubKey, "feePayer pubkey %s is different from transaction pubkey %s", pubKey, pk)
-		//}
+		if !pubKey.Equals(pk) {
+			return sdkerrors.Wrapf(sdkerrors.ErrInvalidPubKey, "feePayer pubkey %s is different from transaction pubkey %s", pubKey, pk)
+		}
 
-		//if !recoveredFeePayerAcc.Equals(feePayer) {
-		//	return sdkerrors.Wrapf(sdkerrors.ErrorInvalidSigner, "failed to verify delegated fee payer %s signature", recoveredFeePayerAcc)
-		//}
+		if !recoveredFeePayerAcc.Equals(feePayer) {
+			return sdkerrors.Wrapf(sdkerrors.ErrorInvalidSigner, "failed to verify delegated fee payer %s signature", recoveredFeePayerAcc)
+		}
 
 		// VerifySignature of ethsecp256k1 accepts 64 byte signature [R||S]
 		// WARNING! Under NO CIRCUMSTANCES try to use pubKey.VerifySignature there
